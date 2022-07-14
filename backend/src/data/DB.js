@@ -1,7 +1,7 @@
 const mysql = require("mysql2");
 const dbData = require("./DBdata.js");
 
-
+console.log("in db");
 const pool = mysql.createPool(dbData);
 
 module.exports = {
