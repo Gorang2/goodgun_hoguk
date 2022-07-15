@@ -20,12 +20,8 @@ class _LoginPageState extends State<LoginPage> {
   String? _password;
   bool _verified = false; //서버에서 확인 후 로그인 처리를 위함
 
-  @override
-  initState() {
-    super.initState();
-  }
 
-  Future loginProcess(id, pw) async {
+  Future _loginProcess(id, pw) async {
 
     var serverIP = "172.30.1.46"; // 서버의 ip주소
     var serverPath = "http://$serverIP:3000/login/process"; // REST API를 위한 url
@@ -39,14 +35,14 @@ class _LoginPageState extends State<LoginPage> {
     return (result);
   }
 
- Future validateAndSave() async { //로그인 승낙 여부 확인 함수
+ Future _validateAndSave() async { //로그인 승낙 여부 확인 함수
     final form = formKey.currentState; //현재 form 상태 가져오기
     if (form==null) //null 방지
       { return ; }
     else if (form.validate()) { //검사 : 함수는 Textformfield의 옵션으로 주어짐
       form.save();
       print("Send to server : email = $_email, pw : $_password");
-      var resultJson = await loginProcess(_email, _password);
+      var resultJson = await _loginProcess(_email, _password);
       print(resultJson['statusCode']);
       if (resultJson['statusCode'] == 200) {
         print("right");
@@ -58,13 +54,13 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   //ID 검사 로직 : textformfield가 문자열 반환값으로 검사를 실행하는 듯
-  String? validateID(value) {
+  String? _validateID(value) {
     if (value.isEmpty)
       { return ("아이디를 입력해주세요."); };
     return (null);
   }
 
-  String? validatePW(value) {
+  String? _validatePW(value) {
     if (value.isEmpty)
       { return ("비밀번호를 입력하세요."); }
     return (null);
@@ -111,18 +107,18 @@ class _LoginPageState extends State<LoginPage> {
             children : [
               TextFormField( //ID 입력란
                 decoration: const InputDecoration(label : Text("아이디")),
-                validator : (value) => validateID(value),
+                validator : (value) => _validateID(value),
                 onSaved: (value) => { _email = value },
               ),
               TextFormField( //pw 입력란
                 decoration: const InputDecoration(label : Text("비밀번호")),
-                validator : (value) => validatePW(value),
+                validator : (value) => _validatePW(value),
                 obscureText: true,
                 onSaved : (value) => { _password = value },
               ),
               ElevatedButton( //로그인 버튼
                   onPressed: () async {
-                    await validateAndSave();
+                    await _validateAndSave();
                     if (_verified) { //확인 완료 -> 다음 페이지로 넘어가고 로그인 페이지 삭제
                       Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(builder: (context) =>

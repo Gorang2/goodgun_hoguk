@@ -8,7 +8,14 @@ class Home extends StatelessWidget {
         title : Text("Home"),
       ),
       body : Center(
-        child : Text("Hello World!"),
+        child : ListView(
+          children: [
+            ListTile(
+              title : "게시판",
+              onTap: Navigator.push(context, MaterialPageRoute(builder: (context) => FreeBoard())),
+            )
+          ],
+        ),
       )
     );
   }

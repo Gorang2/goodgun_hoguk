@@ -20,9 +20,21 @@ module.exports = {
                     return ;
                 }
             }
-            res.json({'statusCode' : 404, 'statusmsg' : '아이디가 존재하지 않거나 비밀번호가 틀립니다.'});
+            res.json({'statusCode' : 404});
 
         });
+        })
+    },
+    getPosts : (req, res) => {
+        var category = req.param;
+        pool.getConnection((err, con) => {
+            if (err) throw (err);
+            var sql = `SELECT * FROM POSTS WHERE CATEGORY = ${category}`;
+            con.query(sql, (err, result) => {
+                if (err) throw(err);
+                con.release();
+                res.json(result);
+            })
         })
     },
     pool : pool
