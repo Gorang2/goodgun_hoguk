@@ -1,11 +1,16 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const login = require("./src/routes/login");
-//=============MIDDLEWARES================
+const login = require("./src/routes")
+//==========SETTINGS============
 const app = express();
 const jsonParser = bodyParser.json();
-const urlEncodedParser = bodyParser.urlencoded({extended : false});
+const urlEncodedParser = bodyParser.urlencoded({extended : true});
 
-app.use(urlEncodedParser);
+//==========MIDDLEWARES==========
+// post empty body answer .... 
+app.use(express.json());
 app.use("/", login);
-module.exports = { app, urlEncodedParser, jsonParser} ;
+app.use(jsonParser);
+app.use(urlEncodedParser);
+
+module.exports = app ;

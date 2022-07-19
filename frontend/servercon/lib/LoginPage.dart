@@ -2,6 +2,7 @@ import 'dart:convert';
 import './Home.dart';
 import "package:http/http.dart" as http; //pubspec.yaml에 추가해주고 사용
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 //! Required : 로그인 검사 더 복잡하고 철저하게. 회원가입 구현
 // 로그인 페이지 구현을 위한 파일. main.dart로 import 해서 여러 페이지 라우팅 중 하나로 사용
@@ -23,14 +24,14 @@ class _LoginPageState extends State<LoginPage> {
 
   Future _loginProcess(id, pw) async {
 
-    var serverIP = "172.30.1.46"; // 서버의 ip주소
+    var serverIP = "172.30.1.42"; // 서버의 ip주소
     var serverPath = "http://$serverIP:3000/login/process"; // REST API를 위한 url
-    Map data = {
+    Map data = <String, String> {
       'id' : id,
       'pw' : pw
     };
-
-    final response = await http.post(serverPath, headers: {'Content-Type' : 'application/x-www-form-urlencoded'}, body : data);
+    print(data);
+    final response = await http.post(Uri.parse(serverPath),  body : jsonEncode(data), headers : { 'Content-Type': 'application/json; charset=UTF-8'});
     var result = jsonDecode(response.body); //json으로 디코딩
     return (result);
   }

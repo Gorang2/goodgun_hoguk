@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import './FreeBoard.dart';
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -11,8 +11,11 @@ class Home extends StatelessWidget {
         child : ListView(
           children: [
             ListTile(
-              title : "게시판",
-              onTap: Navigator.push(context, MaterialPageRoute(builder: (context) => FreeBoard())),
+              title : const Text("게시판"),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder:
+                    (context) => FreeBoard()));
+              }
             )
           ],
         ),
