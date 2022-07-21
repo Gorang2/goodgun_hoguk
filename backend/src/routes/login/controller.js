@@ -1,9 +1,12 @@
 const db = require("../../data/DB");
 
 const process = {
-    handleLogin :  (req, res) => {
+    postLogin :  (req, res) => {
         db.postLogin(req, res);
     },
+    postRegister : (req, res) => {
+        db.postRegister(req, res);
+    }
 }
 
 module.exports = {process};
