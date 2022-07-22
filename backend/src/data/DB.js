@@ -94,10 +94,36 @@ module.exports = {
             })
         })
     },
-    postComments : (req, res) => {
+    postComment : (req, res) => {
+        var category = req.params.category;
+        var index = req.params.index;
+        var id = req.body.id;
+        var comment = req.body.comment;
+        var dateObj = new Date();
+        var date = dateObj.getFullYear() + '-' + (dateObj.getMonth()+1) + '-' + dateObj.getDay();
+        var time = dateObj.getHours() + ':' + dateObj.getMinutes();
+        console.log(date, time);
         pool.getConnection((err, con) => {
             if (err) throw (err);
-            console.log(req.body);
+            var sql = `INSERT INTO comments_${category}(postNum, id, comment) VALUES (${index}, '${id}', '${comment}'); UPDATE posts_${category} SET comment_count=comment_count+1 WHERE \`index\`=${index};`;
+            con.query(sql, (err, result) => {
+                if (err) throw (err);
+                console.log('Comment Updated');
+            });
+        })
+    },
+    deleteComment : (req, res) => {
+        var category = req.params.category;
+        var index = req.params.index;
+        var seq = req.body.seq;
+        var sql = `DELETE FROM comments_${category} WHERE seq=${seq};UPDATE posts_${category} SET comment_count=comment_count-1 WHERE \`index\`=${index}`;
+        pool.getConnection((err, con) => {
+            if (err) throw (err);
+            con.query(sql, (err, result) => {
+                if (err) throw (err);
+                console.log('comment deleted');
+                res.json({'statusCode' : 200});
+            })
         })
     },
     pool : pool

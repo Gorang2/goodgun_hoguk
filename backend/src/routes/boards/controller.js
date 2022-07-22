@@ -12,6 +12,9 @@ const process = {
     },
     postComment : (req, res) => {
         db.postComment(req, res);
+    },
+    deleteComment : (req, res) => {
+        db.deleteComment(req,res);
     }
 };
 

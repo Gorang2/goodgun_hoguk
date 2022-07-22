@@ -9,7 +9,8 @@ router.post("/login/process", control_login.process.postLogin);
 router.post("/register", control_login.process.postRegister);
 router.get("/boards/:category", control_board.process.getPosts);
 router.get("/posts/:category/:index", control_board.process.getComments);
-router.post("/posts/:category/:index/:action", control_board.process.handleLikes);
-router.post("/posts/:category/:index/comments", control_board.process.postComment)
+router.post("/posts/:category/:index/like/:action", control_board.process.handleLikes);
+router.post("/posts/:category/:index/comments/post", control_board.process.postComment)
+router.post("/posts/:category/:index/comments/delete", control_board.process.deleteComment)
 
 module.exports = router;
